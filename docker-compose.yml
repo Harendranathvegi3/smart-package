@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "baca"
+    ports:
+      - "5433:5432"
+    user: "51000"
+    volumes:
+      - ./dataVolume/postgres:/var/lib/postgresql/data
+
+  mlbackend:
+    build: .
+    image: smartpages/mlbackend
+    environment:
+      LOG_LEVEL: debug
+      DEBUG: "false"
+      COMPOSE: "true"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "baca"
+      POSTGRES_HOST: "postgres"
+      POSTGRES_PORT: 5432
+    ports:
+      - "8060:8060"
+    user: "51000"
+    volumes:
+      - ./dataVolume/migrations:/app/migrations
+      - ./dataVolume/db:/app/db
+      - ./dataVolume/media:/app/media
+      - ./main:/app/main
+      - ./ssl:/etc/certs/celery
+      - ./api_server:/app/api_server
+      - ./functions:/app/functions
+      - ./ocr_extraction:/app/ocr_extraction
+  mlfrontend:
+    build: ./machinelearning
+    image: smartpages/mlfrontend
+    environment:
+      LOG_LEVEL: debug
+      DEBUG: "false"
+      API_PROTOCOL: http
+      API_IP: localhost
+      API_PORT: 8060
+    ports:
+      - "3020:8000"
+    user: "51000"
+    volumes:
+      - ./machinelearning:/var/www/app/current
+
