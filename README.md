@@ -1,93 +1,82 @@
 # smart-package
 
-Prerequisites
+## Prerequisites
 
-1. Install NodeJS 
-2. Install Swagger
-2. Install Python 3
-3. Install Django
-4. Install Angular
-5. Install Swagger Codegen https://swagger.io/docs/open-source-tools/swagger-codegen/
+1. Install [NodeJS](https://nodejs.org/en/download/)
+2. Install [Swagger Codegen](https://swagger.io/docs/open-source-tools/swagger-codegen/)
+3. Install [Python 3](https://www.python.org/downloads/)
+4. Install Django
+   ```bash
+   python3 -m pip install Django  
+   ```
+5. Install Angular
+   ```bash
+   npm install -g @angular/cli
+   ```
+6. Install [Docker](https://docs.docker.com/get-docker/) -  For testing locally
 
+## Folder Structure
+1. datascience - Django based web application for ML. See [details](datascience/README.md) for setup.
+2. frontend - Angular based frontend application. See [details](frontend/README.md) for setup.
+3. webapi - Nodejs swagger based application. See [details](webapi/README.md) for setup.
 
-
-
-NodeJS
-
-Edit Swagger
-```swagger project edit```
-
-Start Swagger
-```swagger project start```
-
-Python
-
-```python3 manage.py runserver```
-
-Frontend
-https://www.carbondesignsystem.com/tutorial/angular/overview
-
-https://github.com/carbon-design-system/carbon-angular-starter
-
-```ng serve```
-
-```npm run swagger-generate```
  
-Django based application
+## To Run
+### On Docker-Compose
+#### Before you build, ensure you have docker installed and you need to run these scripts:
 
-Folder Structure
-
-MLAlgorithms - Main folder containing Django components
-machinelearning - contains frontend code
-To Run
-
-On Docker-Compose
-
-Before you build, ensure you have docker installed and you need to run these scripts:
-
-1) Run this once, to download the "smartpages/nuance_caller_base" and "smartpages/kubenodebase"
-
-./RegistryLogin.sh
-2) To build all containers
-
+#### 1) To build all containers
+```bash
 docker-compose build
-3) To run all containers(will start on port 8060(Backend) and 3020(UI)):
+```
 
+#### 2) To run all containers(will start on port 8000(Frontend), 10010(Web API) and 8060(Data Science)):
+```bash
 docker-compose up
-Links
+```
+#### Links
+ Frontend - http://127.0.0.1:8000
 
-Frontend - http://127.0.0.1:3020 Backend - http://127.0.0.1:8060
+ Web API - http://127.0.0.1:10010
 
-Things to note:
+ Data Science Backend - http://127.0.0.1:8060
 
-You can ignore any errors from the startup of mlbackend with sqlite3.IntegrityError: column username is not unique, this means the database exists previously
+##### Things to note:
+1. You can ignore any errors from the startup of datascience with  `sqlite3.IntegrityError: column username is not unique`, this means the database exists previously
+2. Currently, things are setup to make use of your local changes in all the folders so you can easily refresh. 
+    
+    **Frontend**
+     To ensure updates take effect on change.
+     1. add the below to the frontend section of the docker compose file
+        ```yaml
+        volumes:
+          - ./frontend/dist/frontend:/usr/share/nginx/html
+        ```
+     2. Each time you make a local change to the **frontend** or at first use, Run the below command in the machinelearning folder:
+     ```bash
+     npm build
+     ```
+     
+3. To deploy everything using docker compose without making use of local, remove the volumes section from docker-compose.yaml
 
-Currently, things are setup to make use of your local changes in the frontend and backend so you can easily refresh.
-
-Frontend
-
-Each time you make a local change to the frontend or at first use, Run the below command in the machinelearning folder:
-
-npm build
-To deploy everything full using docker compose without making use of local:
-
-Uncomment all the commented lines (7,10, 17, 19) in machinelearning/Dockerfile.
-Navigate into machinelearning/nginx/default.conf, replace line 20 with root /usr/share/nginx/html.
-Also remove the volumes section from docker-compose.yaml
-Backend Each time a change is made, you'll notice the worker of that component reboot. To deploy everything full using docker compose without making use of local:
-
-Remove the volumes section from the mlbackend service
-4) When you want to stop all containers: (this stops your running docker containers)
-
+#### 4) When you want to stop all containers: (this stops your running docker containers)
+```bash
 docker-compose stop
-6) When you want to remove all the stopped containers (a more complete cleanup of your docker containers)
+```
 
-NOTE: this is just removing the Docker containers (your Docker images will be kept).
-
+#### 6) When you want to remove all the stopped containers (a more complete cleanup of your docker containers)
+##### NOTE: this is just removing the Docker *containers* (your Docker *images* will be kept).
+```bash
 docker-compose rm
-Credentials
+```
 
-If you want to access the Django database, navigate to http://127.0.0.1:8060/admin on a browser and use the password below:
+### Credentials
+If you want to access the Django database, navigate to `http://127.0.0.1:8060/admin` on a browser and use the password below:
 
-password - Q3Enhancements
-username=admin
+```
+password - testuser
+username - admin
+```
+
+### Deploying to Openshift
+#### To-Do

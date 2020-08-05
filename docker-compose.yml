@@ -12,12 +12,10 @@ services:
     user: "51000"
     volumes:
       - ./dataVolume/postgres:/var/lib/postgresql/data
-
-  mlbackend:
-    build: .
-    image: smartpages/mlbackend
+  datascience:
+    build: ./datascience
+    image: datascience
     environment:
-      LOG_LEVEL: debug
       DEBUG: "false"
       COMPOSE: "true"
       POSTGRES_PASSWORD: "postgres"
@@ -25,30 +23,36 @@ services:
       POSTGRES_DB: "baca"
       POSTGRES_HOST: "postgres"
       POSTGRES_PORT: 5432
+      ALLOWED_HOSTS: "0.0.0.0"
     ports:
       - "8060:8060"
-    user: "51000"
+    depends_on:
+      - postgres
     volumes:
-      - ./dataVolume/migrations:/app/migrations
-      - ./dataVolume/db:/app/db
       - ./dataVolume/media:/app/media
-      - ./main:/app/main
-      - ./ssl:/etc/certs/celery
-      - ./api_server:/app/api_server
-      - ./functions:/app/functions
-      - ./ocr_extraction:/app/ocr_extraction
-  mlfrontend:
-    build: ./machinelearning
-    image: smartpages/mlfrontend
+      - ./datascience/smartpackage:/app/smartpackage
+      - ./datascience/datascience:/app/datascience
+  webapi:
+    build: ./webapi
+    image: webapi
+    environment:
+      PORT: 10010
+      ML_API_PROTOCOL: http
+      ML_API_IP: localhost
+      ML_API_PORT: 8060
+    ports:
+      - "10010:10010"
+    volumes:
+      - ./webapi/api:/usr/src/app/api
+  frontend:
+    build: ./frontend
+    image: frontend
     environment:
       LOG_LEVEL: debug
       DEBUG: "false"
       API_PROTOCOL: http
       API_IP: localhost
-      API_PORT: 8060
+      API_PORT: 10010
     ports:
-      - "3020:8000"
-    user: "51000"
-    volumes:
-      - ./machinelearning:/var/www/app/current
+      - "8000:8000"
 

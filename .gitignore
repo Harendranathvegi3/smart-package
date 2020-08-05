@@ -36,3 +36,7 @@ package-lock.json
 config/runtime.yaml
 
 .swagger-codegen
+dataVolume
+venv
+staticfiles
+static

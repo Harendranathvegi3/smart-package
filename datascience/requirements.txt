@@ -1,0 +1,14 @@
+Django==2.2
+djangorestframework
+pygments
+django-rest-swagger
+jsonfield
+gunicorn
+django-cors-headers
+requests==2.20.0
+coreapi
+drf-extensions
+whitenoise
+dj_static
+connexion==2.2.0
+psycopg2-binary>=2.8

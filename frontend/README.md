@@ -1,28 +1,28 @@
-# CARBON ANGULAR STARTER
-
-Kick start your application development with Carbon Angular.
+# Smart Package Carbon Angular
 
 ## Prerequisites
 
-* [npm](https://www.npmjs.com/) (`brew install npm`)
-* [git](https://git-scm.com/) (`brew install git`)
-* [angular-cli](https://cli.angular.io/) (`sudo npm install -g @angular/cli`)
+1. Install [NodeJS](https://nodejs.org/en/download/)
+2. Install [Angular](https://cli.angular.io/)
+   ```bash
+   npm install -g @angular/cli
+   ```
+   or with permissions if needed
+   ```bash
+   sudo npm install -g @angular/cli
+   ```
+3. Install [Swagger Codegen](https://swagger.io/docs/open-source-tools/swagger-codegen/)
 
-## Download and install
-
-Run the following in the terminal:
+## Run Locally
+#### Install packages
 
 ```bash
-# to download
-git clone https://github.com/carbon-design-system/carbon-angular-starter.git
-
-# to install
-cd carbon-angular-starter
+cd frontend
 npm install
 ```
 
 ## Development server
-Run `npm run start` or `ng serve` for a dev server. Navigate to [http://localhost:4200/](http://localhost:4200/). The app will automatically reload if you change any of the source files.
+Run `npm start` or `ng serve` for a dev server. Navigate to [http://localhost:4200/](http://localhost:4200/). The app will automatically reload if you change any of the source files.
 
 ## How to use components
 
@@ -31,6 +31,10 @@ Look at the [component library](https://angular.carbondesignsystem.com/) and [de
 ## Create new angular components
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.
+
+## Connecting backend swagger to frontend using services
+
+Run `npm run swagger-generate` to update the services. Your new API connector will be found in `frontend/src/services/backend`
 
 ## Build
 
@@ -47,7 +51,13 @@ Before running the tests make sure you are serving the app via `ng serve`.
 
 ## Further help
 
+### Angular 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+### Carbon
+https://www.carbondesignsystem.com/tutorial/angular/overview
+
+https://github.com/carbon-design-system/carbon-angular-starter 
 
 ## PWA ready
 

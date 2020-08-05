@@ -13,11 +13,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
-from django.urls import include, path
+from django.urls import path, include
+from django.views.generic import RedirectView
+from rest_framework.documentation import include_docs_urls
+from rest_framework_swagger.views import get_swagger_view
+
+sp_title = 'Smart Packages API'
+schema_view = get_swagger_view(title=sp_title)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('smart/', include('smartpackage.urls')),
-]
+                  path('admin/', admin.site.urls),
+                  path('accounts/login/', RedirectView.as_view(url='/admin/login/?next=/')),
+                  path('', schema_view),
+                  path('docs/', include_docs_urls(title=sp_title)),
+                  path(r'smart/', include('smartpackage.urls')),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,
+                                                                                         document_root=settings.STATIC_ROOT)
