@@ -34,3 +34,5 @@ package-lock.json
 
 # Runtime configuration for swagger app
 config/runtime.yaml
+
+.swagger-codegen

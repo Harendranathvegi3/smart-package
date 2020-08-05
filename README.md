@@ -31,7 +31,7 @@ https://github.com/carbon-design-system/carbon-angular-starter
 
 ```ng serve```
 
-```swagger-codegen generate -i <path-to-swagger.json> -l <lang-code> -o <output-path>```
+```npm run swagger-generate```
  
 Django based application
 

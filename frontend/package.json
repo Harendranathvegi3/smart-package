@@ -1,5 +1,5 @@
 {
-  "name": "carbon-angular-starter",
+  "name": "smartpackage",
   "version": "0.1.0",
   "license": "",
   "scripts": {
@@ -10,7 +10,7 @@
     "test:once": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
-	"swagger-generate": "swagger-codegen generate -i <path-to-swagger.json> -l <lang-code> -o <output-path>"
+	"swagger-generate": "swagger-codegen generate -i ../webapi/api/swagger/swagger.yaml -l typescript-angular -o src/services/backend"
   },
   "engines": {
     "node": ">= 10.9"
